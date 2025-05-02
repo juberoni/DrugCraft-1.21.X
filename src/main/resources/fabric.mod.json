@@ -1,0 +1,40 @@
+{
+	"schemaVersion": 1,
+	"id": "drugcraft",
+	"version": "${version}",
+	"name": "DrugCraft",
+	"description": "Los Pollos Jubemanos.",
+	"authors": [
+		"jube"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "MIT",
+	"icon": "assets/drugcraft/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"net.jube.drugcraft.DrugCraft"
+		],
+		"fabric-datagen": [
+			"net.jube.drugcraft.DrugCraftDataGenerator"
+		],
+		"client": [
+			"net.jube.drugcraft.DrugCraftClient"
+		]
+	},
+	"mixins": [
+		"drugcraft.mixins.json"
+	],
+	"depends": {
+		"fabricloader": ">=0.16.14",
+		"minecraft": "~1.21",
+		"java": ">=21",
+		"fabric-api": "*"
+	},
+	"suggests": {
+		"another-mod": "*"
+	}
+}
