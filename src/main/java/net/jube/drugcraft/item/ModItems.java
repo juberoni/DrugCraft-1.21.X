@@ -2,6 +2,8 @@ package net.jube.drugcraft.item;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.jube.drugcraft.DrugCraft;
+import net.jube.drugcraft.block.ModBlocks;
+import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
 import net.minecraft.registry.Registries;
@@ -12,7 +14,10 @@ public class ModItems {
     public static final Item MARIJUANA_LEAF = registerItem("marijuana_leaf", new Item(new Item.Settings()));
     public static final Item MARIJUANA_FLOWER = registerItem("marijuana_flower", new Item(new Item.Settings()));
     public static final Item DRIED_MARIJUANA_FLOWER = registerItem("dried_marijuana_flower", new Item(new Item.Settings()));
-    public static final Item MARIJUANA_SEEDS = registerItem("marijuana_seeds", new Item(new Item.Settings()));
+
+
+    public static final Item MARIJUANA_SEEDS = registerItem("marijuana_seeds",
+        new AliasedBlockItem(ModBlocks.MARIJUANA_PLANT, new Item.Settings()));
 
 
     private static Item registerItem(String name, Item item) {
