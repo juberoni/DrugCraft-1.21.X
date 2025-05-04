@@ -2,8 +2,7 @@ package net.jube.drugcraft;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.jube.drugcraft.datagen.ModBlockTagProvider;
-import net.jube.drugcraft.datagen.ModItemTagProvider;
+import net.jube.drugcraft.datagen.*;
 
 public class DrugCraftDataGenerator implements DataGeneratorEntrypoint {
 	@Override
@@ -12,5 +11,8 @@ public class DrugCraftDataGenerator implements DataGeneratorEntrypoint {
 
 		pack.addProvider(ModBlockTagProvider::new);
 		pack.addProvider(ModItemTagProvider::new);
+		pack.addProvider(ModLootTableProvider::new);
+		pack.addProvider(ModModelProvider::new);
+		pack.addProvider(ModRecipeProvider::new);
 	}
 }

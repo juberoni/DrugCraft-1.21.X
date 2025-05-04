@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "has_block_of_dried_marijuana": {
+      "conditions": {
+        "items": [
+          {
+            "items": "drugcraft:block_of_dried_marijuana"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "minecraft:dried_marijuana_flower"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "has_block_of_dried_marijuana"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "minecraft:dried_marijuana_flower"
+    ]
+  }
+}
