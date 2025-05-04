@@ -11,6 +11,8 @@ import net.minecraft.util.Identifier;
 public class ModItems {
     public static final Item MARIJUANA_LEAF = registerItem("marijuana_leaf", new Item(new Item.Settings()));
     public static final Item MARIJUANA_FLOWER = registerItem("marijuana_flower", new Item(new Item.Settings()));
+    public static final Item DRIED_MARIJUANA_FLOWER = registerItem("dried_marijuana_flower", new Item(new Item.Settings()));
+    public static final Item MARIJUANA_SEEDS = registerItem("marijuana_seeds", new Item(new Item.Settings()));
 
 
     private static Item registerItem(String name, Item item) {
@@ -23,6 +25,8 @@ public class ModItems {
         ItemGroupEvents.modifyEntriesEvent(ItemGroups.INGREDIENTS).register(fabricItemGroupEntries -> {
             fabricItemGroupEntries.add(MARIJUANA_LEAF);
             fabricItemGroupEntries.add(MARIJUANA_FLOWER);
+            fabricItemGroupEntries.add(DRIED_MARIJUANA_FLOWER);
+            fabricItemGroupEntries.add(MARIJUANA_SEEDS);
         });
     }
 }

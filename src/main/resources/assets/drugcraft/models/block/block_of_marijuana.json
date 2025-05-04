@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube_all",
+  "textures": {
+    "down": "drugcraft:block/block_of_marijuana_texture_bottom",
+    "up": "drugcraft:block/block_of_marijuana_texture_top",
+    "north": "drugcraft:block/block_of_marijuana_texture_side",
+    "east": "drugcraft:block/block_of_marijuana_texture_side",
+    "south": "drugcraft:block/block_of_marijuana_texture_side",
+    "west": "drugcraft:block/block_of_marijuana_texture_side",
+    "particle": "drugcraft:block/block_of_marijuana_texture_side"
+  }
+}

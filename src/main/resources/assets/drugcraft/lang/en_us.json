@@ -1,4 +1,11 @@
 {
   "item.drugcraft.marijuana_leaf": "Marijuana Leaf",
-  "item.drugcraft.marijuana_flower": "Marijuana Flower"
+  "item.drugcraft.marijuana_flower": "Marijuana Flower",
+  "item.drugcraft.dried_marijuana_flower": "Dried Marijuana Flower",
+  "item.drugcraft.marijuana_seeds": "Marijuana Seeds",
+
+  "block.drugcraft.block_of_marijuana": "Block of Marijuana",
+  "block.drugcraft.block_of_dried_marijuana": "Block of Dried Marijuana",
+
+  "itemgroup.drugcraft.drugcraft_items": "DrugCraft"
 }

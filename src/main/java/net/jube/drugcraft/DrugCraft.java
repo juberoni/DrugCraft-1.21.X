@@ -2,6 +2,8 @@ package net.jube.drugcraft;
 
 import net.fabricmc.api.ModInitializer;
 
+import net.jube.drugcraft.block.ModBlocks;
+import net.jube.drugcraft.item.ModItemGroups;
 import net.jube.drugcraft.item.ModItems;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +15,10 @@ public class DrugCraft implements ModInitializer {
 
 	@Override
 	public void onInitialize() {
+		ModItemGroups.registerItemGroups();
+
 		ModItems.registerModItems();
+		ModBlocks.registerModBlocks();
 
 	}
 }
