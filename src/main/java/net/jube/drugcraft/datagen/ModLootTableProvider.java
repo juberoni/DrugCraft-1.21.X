@@ -3,16 +3,20 @@ package net.jube.drugcraft.datagen;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.jube.drugcraft.block.ModBlocks;
+import net.jube.drugcraft.block.custom.MarijuanaCropBlock;
+import net.jube.drugcraft.item.ModItems;
 import net.minecraft.block.Block;
 import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.item.Item;
 import net.minecraft.loot.LootTable;
+import net.minecraft.loot.condition.BlockStatePropertyLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LeafEntry;
 import net.minecraft.loot.function.ApplyBonusLootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.predicate.StatePredicate;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 
@@ -27,6 +31,10 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.BLOCK_OF_MARIJUANA);
         addDrop(ModBlocks.BLOCK_OF_DRIED_MARIJUANA);
+
+        BlockStatePropertyLootCondition.Builder builder2 = BlockStatePropertyLootCondition.builder(ModBlocks.MARIJUANA_PLANT)
+                .properties(StatePredicate.Builder.create().exactMatch(MarijuanaCropBlock.AGE, 4));
+        this.addDrop(ModBlocks.MARIJUANA_PLANT,this.cropDrops(ModBlocks.MARIJUANA_PLANT, ModItems.MARIJUANA_FLOWER, ModItems.MARIJUANA_SEEDS,builder2));
 
     }
 

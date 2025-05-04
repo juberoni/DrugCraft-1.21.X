@@ -15,7 +15,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
 
     @Override
     protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-        getOrCreateTagBuilder(BlockTags.SHOVEL_MINEABLE)
+        getOrCreateTagBuilder(BlockTags.HOE_MINEABLE)
                 .add(ModBlocks.BLOCK_OF_DRIED_MARIJUANA)
                 .add(ModBlocks.BLOCK_OF_MARIJUANA);
 
