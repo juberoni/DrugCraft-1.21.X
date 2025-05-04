@@ -1,0 +1,13 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "building",
+  "ingredients": [
+    {
+      "item": "drugcraft:block_of_dried_marijuana"
+    }
+  ],
+  "result": {
+    "count": 9,
+    "id": "drugcraft:dried_marijuana_flower"
+  }
+}

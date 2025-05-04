@@ -3,7 +3,7 @@
   "category:": "misc",
   "key": {
     "#": {
-      "item": "drugcraft:marijuana_flower"
+      "item": "drugcraft:dried_marijuana_flower"
     }
   },
   "pattern": [
@@ -13,7 +13,7 @@
   ],
   "result": {
     "count": 1,
-    "id": "drugcraft:block_of_marijuana"
+    "id": "drugcraft:block_of_dried_marijuana"
   }
 
 }
