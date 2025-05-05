@@ -112,34 +112,6 @@ public class MarijuanaPlantBlock extends CropBlock {
         }
     }
 
-    public void applyGrowth(ServerWorld world, BlockState state, BlockPos pos) {
-        if (state.get(TOP)) return;
-
-        int age = state.get(AGE);
-        if (age >= getMaxAge()) return;
-
-        int newAge = age + 1;
-        BlockState newState = state.with(AGE, newAge);
-        world.setBlockState(pos, newState, 2);
-
-        BlockPos above = pos.up();
-        if (newAge == 6) {
-            if (world.getBlockState(above).isAir()) {
-                world.setBlockState(above, getDefaultState().with(AGE, 6).with(TOP, true), 2);
-            }
-        }
-
-        if (newAge == 7) {
-            BlockState aboveState = world.getBlockState(above);
-            if (aboveState.getBlock() == this && aboveState.get(TOP)) {
-                world.setBlockState(above, getDefaultState().with(AGE, 7).with(TOP, true), 2);
-            }
-        }
-    }
-
-
-
-
     private void dropHarvest(World world, BlockPos pos, boolean fullyGrown) {
         if (fullyGrown) {
             dropStack(world, pos, new ItemStack(ModItems.MARIJUANA_FLOWER, 1 + world.random.nextInt(2)));
