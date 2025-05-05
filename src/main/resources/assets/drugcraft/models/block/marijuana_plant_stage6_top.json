@@ -1,0 +1,6 @@
+{
+  "parent":"block/cross",
+  "textures": {
+    "cross":"drugcraft:block/marijuana_plant_stage6_top"
+  }
+}

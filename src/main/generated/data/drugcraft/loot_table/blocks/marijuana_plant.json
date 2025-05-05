@@ -19,7 +19,7 @@
                   "block": "drugcraft:marijuana_plant",
                   "condition": "minecraft:block_state_property",
                   "properties": {
-                    "age": "4"
+                    "age": "7"
                   }
                 }
               ],
@@ -41,7 +41,7 @@
           "block": "drugcraft:marijuana_plant",
           "condition": "minecraft:block_state_property",
           "properties": {
-            "age": "4"
+            "age": "7"
           }
         }
       ],

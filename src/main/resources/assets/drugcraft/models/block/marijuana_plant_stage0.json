@@ -1,7 +1,6 @@
 {
-  "parent": "minecraft:block/cross",
+  "parent": "block/cross",
   "textures": {
     "cross": "drugcraft:block/marijuana_plant_stage0"
-  },
-  "render_type": "cutout"
+  }
 }

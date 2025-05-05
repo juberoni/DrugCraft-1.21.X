@@ -2,7 +2,7 @@ package net.jube.drugcraft.block;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.jube.drugcraft.DrugCraft;
-import net.jube.drugcraft.block.custom.MarijuanaCropBlock;
+import net.jube.drugcraft.block.custom.MarijuanaPlantBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
 import net.minecraft.block.MapColor;
@@ -24,15 +24,13 @@ public class ModBlocks {
             new Block(AbstractBlock.Settings.create().strength(2f)
                     .sounds(BlockSoundGroup.GRASS)));
 
-    public static final Block MARIJUANA_PLANT = registerBlockWithoutBlockItem("marijuana_plant",
-            new MarijuanaCropBlock(AbstractBlock.Settings.create().noCollision()
+    public static final Block MARIJUANA_PLANT = registerBlockWithoutItem("marijuana_plant",
+            new MarijuanaPlantBlock(AbstractBlock.Settings.create().noCollision()
                     .ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.DARK_GREEN)));
 
-
-
-
-
-
+    protected static Block registerBlockWithoutItem(String name, Block block) {
+        return Registry.register(Registries.BLOCK, Identifier.of("drugcraft", name), block);
+    }
 
     private static Block registerBlock(String name, Block block) {
         registerBlockItem(name, block);

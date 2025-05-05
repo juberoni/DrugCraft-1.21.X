@@ -1,0 +1,14 @@
+{
+  "variants":{
+    "age=0,top=false":{ "model":"drugcraft:block/marijuana_plant_stage0" },
+    "age=1,top=false":{ "model":"drugcraft:block/marijuana_plant_stage1" },
+    "age=2,top=false":{ "model":"drugcraft:block/marijuana_plant_stage2" },
+    "age=3,top=false":{ "model":"drugcraft:block/marijuana_plant_stage3" },
+    "age=4,top=false":{ "model":"drugcraft:block/marijuana_plant_stage4" },
+    "age=5,top=false":{ "model":"drugcraft:block/marijuana_plant_stage5" },
+    "age=6,top=false":{ "model":"drugcraft:block/marijuana_plant_stage6_bottom" },
+    "age=6,top=true":{ "model":"drugcraft:block/marijuana_plant_stage6_top" },
+    "age=7,top=false":{ "model":"drugcraft:block/marijuana_plant_stage7_bottom" },
+    "age=7,top=true":{ "model":"drugcraft:block/marijuana_plant_stage7_top" }
+  }
+}
