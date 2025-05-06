@@ -2,6 +2,7 @@ package net.jube.drugcraft.block;
 
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.jube.drugcraft.DrugCraft;
+import net.jube.drugcraft.block.custom.DryingTableBlock;
 import net.jube.drugcraft.block.custom.MarijuanaPlantBlock;
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -27,6 +28,16 @@ public class ModBlocks {
     public static final Block MARIJUANA_PLANT = registerBlockWithoutItem("marijuana_plant",
             new MarijuanaPlantBlock(AbstractBlock.Settings.create().noCollision()
                     .ticksRandomly().breakInstantly().sounds(BlockSoundGroup.CROP).pistonBehavior(PistonBehavior.DESTROY).mapColor(MapColor.DARK_GREEN)));
+
+    public static final Block DRYING_TABLE = registerBlock("drying_table",
+            new DryingTableBlock(AbstractBlock.Settings.create().strength(3f)
+                    .requiresTool().nonOpaque().sounds(BlockSoundGroup.METAL)));
+
+
+
+
+
+
 
     protected static Block registerBlockWithoutItem(String name, Block block) {
         return Registry.register(Registries.BLOCK, Identifier.of("drugcraft", name), block);

@@ -19,5 +19,7 @@ public class ModBlockTagProvider extends FabricTagProvider.BlockTagProvider {
                 .add(ModBlocks.BLOCK_OF_DRIED_MARIJUANA)
                 .add(ModBlocks.BLOCK_OF_MARIJUANA);
 
+        getOrCreateTagBuilder(BlockTags.PICKAXE_MINEABLE)
+                .add(ModBlocks.DRYING_TABLE);
     }
 }

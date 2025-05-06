@@ -22,7 +22,8 @@ public class ModRecipeProvider extends FabricRecipeProvider {
 
     @Override
     public void generate(RecipeExporter exporter) {
-        List<ItemConvertible> MARIJUANA_DRYABLES = List.of(ModItems.MARIJUANA_FLOWER,
+        List<ItemConvertible> MARIJUANA_DRYABLES = List.of(
+                ModItems.MARIJUANA_FLOWER,
                 ModBlocks.BLOCK_OF_MARIJUANA);
 
         offerReversibleCompactingRecipes(exporter, RecipeCategory.BUILDING_BLOCKS, ModItems.MARIJUANA_FLOWER, RecipeCategory.MISC, ModBlocks.BLOCK_OF_MARIJUANA);
@@ -36,5 +37,14 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(ModItems.MARIJUANA_LEAF), conditionsFromItem(ModItems.MARIJUANA_LEAF))
                 .offerTo(exporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DRYING_TABLE,1)
+                .pattern("I I")
+                .pattern("BBB")
+                .pattern("I I")
+                .input('I', Items.IRON_INGOT)
+                .input('B', Items.IRON_BARS)
+                .criterion("has_iron", conditionsFromItem(Items.IRON_INGOT))
+                .criterion("has_bars", conditionsFromItem(Items.IRON_BARS))
+                .offerTo(exporter);
     }
 }

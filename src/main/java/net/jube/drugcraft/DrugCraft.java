@@ -4,8 +4,11 @@ import net.fabricmc.api.ModInitializer;
 
 import net.fabricmc.fabric.api.registry.CompostingChanceRegistry;
 import net.jube.drugcraft.block.ModBlocks;
+import net.jube.drugcraft.block.entity.ModBlockEntities;
 import net.jube.drugcraft.item.ModItemGroups;
 import net.jube.drugcraft.item.ModItems;
+import net.jube.drugcraft.particle.ModParticles;
+import net.jube.drugcraft.screen.ModScreenHandlers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,6 +23,11 @@ public class DrugCraft implements ModInitializer {
 
 		ModItems.registerModItems();
 		ModBlocks.registerModBlocks();
+
+		ModParticles.registerParticles();
+
+		ModBlockEntities.registerBlockEntities();
+		ModScreenHandlers.registerScreenHandlers();
 
 
 		CompostingChanceRegistry.INSTANCE.add(ModItems.MARIJUANA_FLOWER, 0.5f);

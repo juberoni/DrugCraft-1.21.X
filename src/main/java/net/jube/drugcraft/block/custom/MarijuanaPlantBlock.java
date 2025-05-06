@@ -1,18 +1,17 @@
 package net.jube.drugcraft.block.custom;
 
-import it.unimi.dsi.fastutil.doubles.Double2ShortOpenHashMap;
 import net.jube.drugcraft.item.ModItems;
+import net.jube.drugcraft.particle.ModParticles;
 import net.minecraft.block.*;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
+import net.minecraft.particle.ParticleType;
+import net.minecraft.particle.ParticleTypes;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.state.property.IntProperty;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.hit.BlockHitResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.util.math.random.Random;
@@ -22,7 +21,6 @@ import net.minecraft.world.BlockView;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldAccess;
 import net.minecraft.world.WorldView;
-import net.minecraft.util.Hand;
 
 public class MarijuanaPlantBlock extends CropBlock {
     public static final IntProperty AGE = IntProperty.of("age", 0, 7);
@@ -159,6 +157,55 @@ public class MarijuanaPlantBlock extends CropBlock {
         }
         return super.getStateForNeighborUpdate(state, direction, neighborState, world, pos, neighborPos);
     }
+
+    @Override
+    public boolean isFertilizable(WorldView world, BlockPos pos, BlockState state) {
+        return !state.get(TOP) && super.isFertilizable(world, pos, state);
+    }
+
+    @Override
+    public boolean canGrow(World world, Random random, BlockPos pos, BlockState state) {
+        return !state.get(TOP) && super.canGrow(world, random, pos, state);
+    }
+
+    @Override
+    public void randomDisplayTick(BlockState state, World world, BlockPos pos, Random random) {
+        if (state.getBlock() != this) return;
+
+        boolean isTop = state.get(TOP);
+        int age = state.get(AGE);
+
+        if (age == getMaxAge()) {
+            double x = pos.getX() + 0.5;
+            double y = pos.getY() + (isTop ? 0.7 : 0.3);
+            double z = pos.getZ() +0.5;
+
+            if (random.nextFloat() < 0.7) {
+                world.addParticle(ModParticles.MARIJUANA_PLANT_PARTICLE, x, y, z, 0.0, 0.02, 0.0);
+            }
+        }
+    }
+
+    @Override
+    public void grow(ServerWorld world, Random random, BlockPos pos, BlockState state) {
+        if (!state.get(TOP)) {
+            int age = state.get(AGE);
+            int newAge = Math.min(age + getGrowthAmount(world), getMaxAge());
+            world.setBlockState(pos, state.with(AGE, newAge), 2);
+
+            if (newAge >= 6) {
+                BlockPos above = pos.up();
+                BlockState aboveState = world.getBlockState(above);
+
+                if (aboveState.isAir()) {
+                    world.setBlockState(above, this.getDefaultState().with(AGE, newAge).with(TOP, true), 2);
+                } else if (aboveState.getBlock() == this && aboveState.get(TOP)) {
+                    world.setBlockState(above, aboveState.with(AGE, newAge).with(TOP, true), 2);
+                }
+            }
+        }
+    }
+
 
     @Override
     public void afterBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, BlockEntity blockEntity, ItemStack tool) {

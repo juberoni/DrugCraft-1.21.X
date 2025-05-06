@@ -19,6 +19,7 @@ public class ModItemGroups {
 
                         entries.add(ModBlocks.BLOCK_OF_MARIJUANA);
                         entries.add(ModBlocks.BLOCK_OF_DRIED_MARIJUANA);
+                        entries.add(ModBlocks.DRYING_TABLE);
 
 
                         entries.add(ModItems.MARIJUANA_LEAF);

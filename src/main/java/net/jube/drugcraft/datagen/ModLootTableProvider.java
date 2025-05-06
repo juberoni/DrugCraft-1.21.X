@@ -31,6 +31,7 @@ public class ModLootTableProvider extends FabricBlockLootTableProvider {
     public void generate() {
         addDrop(ModBlocks.BLOCK_OF_MARIJUANA);
         addDrop(ModBlocks.BLOCK_OF_DRIED_MARIJUANA);
+        addDrop(ModBlocks.DRYING_TABLE);
 
         BlockStatePropertyLootCondition.Builder builder2 = BlockStatePropertyLootCondition.builder(ModBlocks.MARIJUANA_PLANT)
                 .properties(StatePredicate.Builder.create().exactMatch(MarijuanaPlantBlock.AGE, 7));
