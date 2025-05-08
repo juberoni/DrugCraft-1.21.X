@@ -9,37 +9,25 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.text.Text;
 import net.minecraft.util.Identifier;
 
-public class DryingTableScreen extends HandledScreen<DryingTableScreenHandler> {
-    private static final Identifier GUI_TEXTURE =
-            Identifier.of(DrugCraft.MOD_ID, "textures/gui/drying_table/drying_table_gui.png");
-    private static final Identifier ARROW_TEXTURE =
-            Identifier.of(DrugCraft.MOD_ID, "textures/gui/arrow_progress.png");
+public class TableScreen extends HandledScreen<TableScreenHandler> {
+    public static final Identifier GUI_TEXTURE =
+            Identifier.of(DrugCraft.MOD_ID, "textures/gui/table/table_gui.png");
 
 
-    public DryingTableScreen(DryingTableScreenHandler handler, PlayerInventory inventory, Text title) {
+    public TableScreen(TableScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
     }
 
     @Override
     protected void drawBackground(DrawContext context, float delta, int mouseX, int mouseY) {
         RenderSystem.setShader(GameRenderer::getPositionTexProgram);
-        RenderSystem.setShaderColor(1.0F,1.0F,1.0F,1.0F);
+        RenderSystem.setShaderColor(1f,1f,1f,1f);
         RenderSystem.setShaderTexture(0, GUI_TEXTURE);
 
         int x = (width - backgroundWidth) / 2;
         int y = (height - backgroundHeight) / 2;
 
-        context.drawTexture(GUI_TEXTURE, x, y, 0, 0 ,backgroundWidth, backgroundHeight);
-
-        renderProgressArrow(context, x, y);
-
-    }
-
-    private void renderProgressArrow(DrawContext context, int x, int y) {
-        if(handler.isCrafting()) {
-            context.drawTexture(ARROW_TEXTURE, x + 73, y + 35, 0, 0,
-                    handler.getScaledArrowProgress(), 16, 24, 16);
-        }
+        context.drawTexture(GUI_TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
     }
 
     @Override

@@ -6,7 +6,6 @@ import net.jube.drugcraft.block.ModBlocks;
 import net.jube.drugcraft.item.ModItems;
 import net.minecraft.data.server.recipe.RecipeExporter;
 import net.minecraft.data.server.recipe.ShapedRecipeJsonBuilder;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemConvertible;
 import net.minecraft.item.Items;
 import net.minecraft.recipe.book.RecipeCategory;
@@ -37,13 +36,23 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion(hasItem(ModItems.MARIJUANA_LEAF), conditionsFromItem(ModItems.MARIJUANA_LEAF))
                 .offerTo(exporter);
 
+        ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.TABLE,1)
+                .pattern("PPP")
+                .pattern("L L")
+                .pattern("L L")
+                .input('L', Items.OAK_LOG)
+                .input('P', Items.OAK_PLANKS)
+                .criterion("has_log", conditionsFromItem(Items.OAK_LOG))
+                .criterion("has_planks", conditionsFromItem(Items.OAK_PLANKS))
+                .offerTo(exporter);
+
         ShapedRecipeJsonBuilder.create(RecipeCategory.BUILDING_BLOCKS, ModBlocks.DRYING_TABLE,1)
-                .pattern("I I")
-                .pattern("BBB")
-                .pattern("I I")
+                .pattern("IBI")
+                .pattern("IBI")
+                .pattern("IBI")
                 .input('I', Items.IRON_INGOT)
                 .input('B', Items.IRON_BARS)
-                .criterion("has_iron", conditionsFromItem(Items.IRON_INGOT))
+                .criterion("has_ingot", conditionsFromItem(Items.IRON_INGOT))
                 .criterion("has_bars", conditionsFromItem(Items.IRON_BARS))
                 .offerTo(exporter);
     }
