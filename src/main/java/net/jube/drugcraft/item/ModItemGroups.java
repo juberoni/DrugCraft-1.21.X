@@ -27,6 +27,7 @@ public class ModItemGroups {
                         entries.add(ModItems.MARIJUANA_FLOWER);
                         entries.add(ModItems.DRIED_MARIJUANA_FLOWER);
                         entries.add(ModItems.MARIJUANA_SEEDS);
+                        entries.add(ModItems.DRYING_FAN);
 
 
 

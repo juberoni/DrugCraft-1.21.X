@@ -3,6 +3,7 @@ package net.jube.drugcraft.item;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.jube.drugcraft.DrugCraft;
 import net.jube.drugcraft.block.ModBlocks;
+import net.jube.drugcraft.item.custom.DryingFanItem;
 import net.minecraft.item.AliasedBlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroups;
@@ -11,9 +12,17 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 
 public class ModItems {
-    public static final Item MARIJUANA_LEAF = registerItem("marijuana_leaf", new Item(new Item.Settings()));
-    public static final Item MARIJUANA_FLOWER = registerItem("marijuana_flower", new Item(new Item.Settings()));
-    public static final Item DRIED_MARIJUANA_FLOWER = registerItem("dried_marijuana_flower", new Item(new Item.Settings()));
+    public static final Item MARIJUANA_LEAF =
+            registerItem("marijuana_leaf", new Item(new Item.Settings()));
+
+    public static final Item MARIJUANA_FLOWER =
+            registerItem("marijuana_flower", new Item(new Item.Settings()));
+
+    public static final Item DRIED_MARIJUANA_FLOWER =
+            registerItem("dried_marijuana_flower", new Item(new Item.Settings()));
+
+    public static final Item DRYING_FAN =
+            registerItem("drying_fan", new DryingFanItem(new Item.Settings().maxDamage(128)));
 
 
     public static final Item MARIJUANA_SEEDS = registerItem("marijuana_seeds",
@@ -32,6 +41,7 @@ public class ModItems {
             fabricItemGroupEntries.add(MARIJUANA_FLOWER);
             fabricItemGroupEntries.add(DRIED_MARIJUANA_FLOWER);
             fabricItemGroupEntries.add(MARIJUANA_SEEDS);
+            fabricItemGroupEntries.add(DRYING_FAN);
         });
     }
 }
