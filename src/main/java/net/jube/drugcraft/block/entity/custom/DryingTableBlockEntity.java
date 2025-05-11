@@ -45,7 +45,7 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
     protected final PropertyDelegate propertyDelegate;
 
     private int progress = 0;
-    private int maxProgress = 400;
+    private int maxProgress = 800;
 
     private int previouslySoundedInputCount = 0;
 

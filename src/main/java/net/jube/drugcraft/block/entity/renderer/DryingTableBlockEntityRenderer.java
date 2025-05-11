@@ -96,7 +96,7 @@ public class DryingTableBlockEntityRenderer implements BlockEntityRenderer<Dryin
 
                 matrices.push();
                 try {
-                    matrices.translate(0.5, 1.3, 0.5); // Adjust Y position
+                    matrices.translate(0.52, 1.3, 0.496); // FAN TRANSFORMATION TOOLS
                     matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
                     matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90.0f));
 
