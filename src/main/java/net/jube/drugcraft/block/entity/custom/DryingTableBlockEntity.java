@@ -30,6 +30,7 @@ import net.minecraft.sound.SoundEvents;
 import net.minecraft.text.Text;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 import org.lwjgl.system.windows.INPUT;
@@ -39,21 +40,22 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
+    private static final int FAN_SLOT = 2;
 
     protected final PropertyDelegate propertyDelegate;
 
     private int progress = 0;
-    private int maxProgress = 200;
+    private int maxProgress = 400;
 
-    // This will track the count of *valid recipe items* in the input slot
-    // from the previous tick, specifically for sound triggering.
     private int previouslySoundedInputCount = 0;
 
+    private static final int BASE_PROGRESS_PER_TICK = 1;
+    private static final int FAN_BOOSTED_PROGRESS_PER_TICK = 2;
 
     public DryingTableBlockEntity(BlockPos pos, BlockState state) {
         super(ModBlockEntities.DRYING_TABLE_BE, pos, state);
         this.propertyDelegate = new PropertyDelegate() {
-            // ... (property delegate remains the same) ...
+
             @Override
             public int get(int index) {
                 return switch (index) {
@@ -78,7 +80,6 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
         };
     }
 
-    // ... (getScreenOpeningData, getItems, getStack, getDisplayName, createMenu, writeNbt remain the same) ...
     @Override
     public BlockPos getScreenOpeningData(ServerPlayerEntity player) {
         return this.pos;
@@ -146,7 +147,7 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
         progress = nbt.getInt("drugcraft.drying_table.progress");
         maxProgress = nbt.getInt("drugcraft.drying_table.max_progress");
         if (this.maxProgress <= 0) {
-            this.maxProgress = 200;
+            this.maxProgress = 400;
         }
 
         if (this.world != null && this.world.isClient) {
@@ -178,7 +179,6 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
 
         // --- Sound for Item Insertion ---
         if (currentValidItemCount > this.previouslySoundedInputCount) {
-            // The number of *valid items we care about for sound* has increased.
             // Play sound for each step of increase.
             int soundsToPlay = currentValidItemCount - this.previouslySoundedInputCount;
             for (int i = 0; i < soundsToPlay; i++) {
@@ -193,22 +193,19 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
                 );
             }
         }
-        // Update the count we've made sounds for
         this.previouslySoundedInputCount = currentValidItemCount;
 
 
         // --- Drying Logic ---
         boolean hasSignificantChange = false;
-        if (this.hasRecipe()) { // hasRecipe should use currentActualInputCount
+
+        if (this.canCraftIgnoringFan()) {
             this.increaseCraftingProgress();
             hasSignificantChange = true;
             if (this.hasCraftingFinished()) {
                 this.craftItem();
                 this.resetProgress();
-                // After crafting, currentInputStack will be smaller or empty.
-                // On the next tick, currentValidItemCount will be recalculated, and
-                // previouslySoundedInputCount will be updated accordingly, preventing
-                // "removal" sounds if items are taken out after crafting.
+
             }
         } else {
             if (this.progress > 0) {
@@ -224,7 +221,6 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
         }
     }
 
-    // ... (resetProgress, craftItem, hasCraftingFinished, increaseCraftingProgress, hasRecipe remain the same) ...
     // Ensure craftItem still has its completion sound.
     private void resetProgress() {
         this.progress = 0;
@@ -233,6 +229,7 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
     private void craftItem() {
         ItemStack recipeOutput = new ItemStack(ModItems.DRIED_MARIJUANA_FLOWER, 1);
         this.removeStack(INPUT_SLOT, 1);
+
         ItemStack currentOutputStack = this.getStack(OUTPUT_SLOT);
         if (currentOutputStack.isEmpty()) {
             this.setStack(OUTPUT_SLOT, recipeOutput.copy());
@@ -241,9 +238,28 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
             this.setStack(OUTPUT_SLOT, currentOutputStack);
         }
 
+        //DAMAGE THE FAN
+        ItemStack fanStack = this.getStack(FAN_SLOT);
+        if (fanStack.isOf(ModItems.DRYING_FAN) && fanStack.isDamageable() && fanStack.getDamage() < fanStack.getMaxDamage()) {
+            int currentDamage = fanStack.getDamage();
+            int maxDamage = fanStack.getMaxDamage();
+
+            currentDamage++;
+
+            if (currentDamage >= maxDamage) {
+                this.setStack(FAN_SLOT, ItemStack.EMPTY); // Fan broke, remove it
+
+                if (this.world != null) {
+                    this.world.playSound(null, this.pos, SoundEvents.ENTITY_ITEM_BREAK, SoundCategory.BLOCKS, 0.8f, 0.8f + this.world.random.nextFloat() * 0.4f);
+                }
+            } else {
+                fanStack.setDamage(currentDamage);
+                this.setStack(FAN_SLOT, fanStack);
+            }
+        }
         if (this.world != null) {
-            this.world.playSound(null, this.pos,
-                    SoundEvents.BLOCK_SPORE_BLOSSOM_PLACE, SoundCategory.BLOCKS, 0.7f, 1.0f + this.world.random.nextFloat() * 0.2f);
+            this.world.playSound(null, this.pos, SoundEvents.BLOCK_SPORE_BLOSSOM_PLACE, SoundCategory.BLOCKS, 0.7f, 1.0f + this.world.random.nextFloat() * 0.2f);
+
         }
     }
 
@@ -252,11 +268,21 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
     }
 
     private void increaseCraftingProgress() {
-        this.progress++;
+        ItemStack fanStack = this.getStack(FAN_SLOT);
+        // Check if a working fan is present
+        if (fanStack.isOf(ModItems.DRYING_FAN) && (!fanStack.isDamageable() || fanStack.getDamage() < fanStack.getMaxDamage())) {
+            this.progress += FAN_BOOSTED_PROGRESS_PER_TICK; // Apply boosted progress
+        } else {
+            this.progress += BASE_PROGRESS_PER_TICK; // Apply base progress
+        }
     }
 
-    private boolean hasRecipe() {
-        ItemStack inputStack = this.getStack(INPUT_SLOT); // This gets the actual stack
+    public boolean isCurrentlyCrafting() {
+        return this.progress > 0 && this.canCraftIgnoringFan();
+    }
+
+    private boolean canCraftIgnoringFan() {
+        ItemStack inputStack = this.getStack(INPUT_SLOT);
         if (inputStack.isEmpty() || !inputStack.isOf(ModItems.MARIJUANA_FLOWER)) {
             return false;
         }
@@ -267,6 +293,13 @@ public class DryingTableBlockEntity extends BlockEntity implements ExtendedScree
         return currentOutputStack.getCount() + recipeOutput.getCount() <= currentOutputStack.getMaxCount() &&
                 currentOutputStack.getCount() + recipeOutput.getCount() <= this.getMaxCountPerStack();
     }
+
+    // hasRecipe() will now just be an alias for canCraftIgnoringFan(), as the fan's presence only affects speed and durability usage, not the ability to craft slowly.
+
+    public boolean hasRecipe() {
+        return canCraftIgnoringFan();
+    }
+
 
 
     @Nullable

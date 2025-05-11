@@ -23,7 +23,7 @@ public class DryingTableBlockEntityRenderer implements BlockEntityRenderer<Dryin
 
     private static final int INPUT_SLOT = 0;
     private static final int OUTPUT_SLOT = 1;
-
+    private static final int FAN_SLOT = 2;
 
 
     @Override
@@ -83,14 +83,57 @@ public class DryingTableBlockEntityRenderer implements BlockEntityRenderer<Dryin
                 );
             }
             matrices.pop();
+
         }
         matrices.pop();
+
+        //RENDER THE FAN
+        ItemStack fanStackInSlot = entity.getStack(FAN_SLOT);
+
+        if (fanStackInSlot.isOf(ModItems.DRYING_FAN)) { // Check if the item in the slot IS a drying fan
+            matrices.push();
+            try {
+
+                matrices.push();
+                try {
+                    matrices.translate(0.5, 1.3, 0.5); // Adjust Y position
+                    matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
+                    matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(90.0f));
+
+                    float fanScale = 0.75f;
+                    matrices.scale(fanScale, fanScale, fanScale);
+
+
+                    if (entity.isCurrentlyCrafting()) {
+                        long time = entity.getWorld().getTime();
+                        float angle = (time + tickDelta) * 100;
+                        matrices.multiply(RotationAxis.POSITIVE_Z.rotationDegrees(angle));
+                    }
+
+                    itemRenderer.renderItem(
+                            fanStackInSlot,
+                            ModelTransformationMode.FIXED,
+                            getLightLevel(entity.getWorld(), entity.getPos().up()),
+                            OverlayTexture.DEFAULT_UV,
+                            matrices,
+                            vertexConsumers,
+                            entity.getWorld(),
+                            entity.hashCode()
+                    );
+                } finally {
+                    matrices.pop();
+                }
+            } finally {
+                matrices.pop();
+            }
+        }
     }
 
-    // Calculate the light level for rendering
-    private int getLightLevel(World world, BlockPos pos) {
-        int bLight = world.getLightLevel(LightType.BLOCK, pos);
-        int sLight = world.getLightLevel(LightType.SKY, pos);
-        return LightmapTextureManager.pack(bLight, sLight);
+        // Calculate the light level for rendering
+        private int getLightLevel (World world, BlockPos pos){
+            int bLight = world.getLightLevel(LightType.BLOCK, pos);
+            int sLight = world.getLightLevel(LightType.SKY, pos);
+            return LightmapTextureManager.pack(bLight, sLight);
+        }
     }
-}
+
