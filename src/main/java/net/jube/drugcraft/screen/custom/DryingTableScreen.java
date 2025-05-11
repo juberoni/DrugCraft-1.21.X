@@ -22,7 +22,6 @@ public class DryingTableScreen extends HandledScreen<DryingTableScreenHandler> {
     private static final Identifier ARROW_TEXTURE =
             Identifier.of(DrugCraft.MOD_ID, "textures/gui/arrow_progress.png");
 
-    private float fanRotationAngle = 0f;
 
     public DryingTableScreen(DryingTableScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);
@@ -40,35 +39,8 @@ public class DryingTableScreen extends HandledScreen<DryingTableScreenHandler> {
         context.drawTexture(GUI_TEXTURE, x, y, 0, 0, backgroundWidth, backgroundHeight);
 
         renderProgressArrow(context, x, y);
-
-        ItemStack fanStack = handler.getSlot(2).getStack();
-        if (!fanStack.isEmpty() && handler.isCrafting()) {
-            fanRotationAngle += delta *(handler.isCrafting() ?10f : 15f);
-            if (fanRotationAngle > 360f) {
-                fanRotationAngle -= 360f;
-            }
-            // Save the current matrix stack
-            context.getMatrices().push();
-
-            // Save current matrix
-            context.getMatrices().push();
-
-            // Translate to the center of the fan item
-            context.getMatrices().translate(x + 82, y + 20, 0);
-            float radians = fanRotationAngle * ((float) Math.PI / 180.0f);
-            context.getMatrices().multiply(new Quaternionf().rotateZ(radians));
-
-            // Move back so the item is drawn from its top-left corner again
-            context.getMatrices().translate(-8, -8, 0);
-
-            // Draw the fan item
-            context.drawItem(fanStack, 0, 0);
-
-            // Restore matrix
-            context.getMatrices().pop();
-
-        }
     }
+
 
     private void renderProgressArrow(DrawContext context, int x, int y) {
         if(handler.isCrafting()) {

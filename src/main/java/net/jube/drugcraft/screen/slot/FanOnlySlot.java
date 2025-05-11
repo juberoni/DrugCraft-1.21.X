@@ -6,8 +6,8 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.screen.slot.Slot;
 
 public class FanOnlySlot extends Slot {
-    public FanOnlySlot(Inventory inventory, int index, int x, int y) {
-        super(inventory, index, x, y);
+    public FanOnlySlot(Inventory inventory, int index, int x) {
+        super(inventory, index, 17, 34);
     }
 
     @Override

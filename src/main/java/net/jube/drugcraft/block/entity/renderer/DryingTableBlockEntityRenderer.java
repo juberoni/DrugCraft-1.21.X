@@ -1,7 +1,7 @@
 package net.jube.drugcraft.block.entity.renderer;
 
 import net.jube.drugcraft.block.entity.custom.DryingTableBlockEntity;
-import net.jube.drugcraft.item.ModItems; // Keep if ModItems.DRYING_FAN is used explicitly
+import net.jube.drugcraft.item.ModItems;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.render.LightmapTextureManager;
 import net.minecraft.client.render.OverlayTexture;
@@ -21,116 +21,74 @@ public class DryingTableBlockEntityRenderer implements BlockEntityRenderer<Dryin
     public DryingTableBlockEntityRenderer(BlockEntityRendererFactory.Context context) {
     }
 
+    private static final int INPUT_SLOT = 0;
+    private static final int OUTPUT_SLOT = 1;
+
+
+
     @Override
     public void render(DryingTableBlockEntity entity, float tickDelta, MatrixStack matrices,
                        VertexConsumerProvider vertexConsumers, int light, int overlay) {
 
         ItemRenderer itemRenderer = MinecraftClient.getInstance().getItemRenderer();
 
-        // Fan render
-        ItemStack fanStackInSlot = entity.getStack(2); // Slot 2 is FAN_SLOT
-        if (!fanStackInSlot.isEmpty()) {
-            matrices.push();
-            matrices.translate(0.52, 1.4f, 0.51f); // Adjust as needed for your model
-            matrices.scale(1.2f, 1.2f, 1.2f);    // Adjust as needed
+        ItemStack inputStack = entity.getStack(INPUT_SLOT).copy(); // Raw flowers
+        ItemStack outputStack = entity.getStack(OUTPUT_SLOT).copy(); // Dried flowers
 
-            if (entity.isCrafting()) { // isCrafting() from BlockEntity
-                float spin = 0;
-                if (entity.getWorld() != null) { // getWorld can be null during initial load sometimes
-                    spin = (float)(entity.getWorld().getTime() + tickDelta) * 10; // Slower spin: * 10 instead of * 50
-                }
-                matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(spin % 360));
-            } else {
-                // Optional: Set a default rotation if not spinning, or remove if not needed.
-                // matrices.multiply(RotationAxis.POSITIVE_Y.rotationDegrees(0f));
-            }
-
-            itemRenderer.renderItem(
-                    fanStackInSlot, // Use the actual ItemStack from the fan slot
-                    ModelTransformationMode.GROUND, // Or FIXED, experiment for best look
-                    getLightLevel(entity.getWorld(), entity.getPos().up()), // Light from above block
-                    OverlayTexture.DEFAULT_UV,
-                    matrices, vertexConsumers,
-                    entity.getWorld(), 0 // Seed for item model variations
-            );
-            matrices.pop();
-        }
-
-        // Shelf item rendering
-        int itemsOnShelves = entity.getItemsTakenForBatch();
-        int numDriedItems = entity.getItemsDriedThisBatch();
-        ItemStack rawItemToRender = entity.getBatchItemType();
-        ItemStack driedItemToRender = entity.getDriedOutputItemType();
-
-        // Only render shelf items if there's a batch active and items defined
-        if (itemsOnShelves <= 0 || rawItemToRender.isEmpty()) {
-            // System.out.println("No batch active or raw item undefined. Shelves empty.");
-            return;
-        }
-
-        // Debugging output
-        System.out.println("Rendering Shelves: Total In Batch=" + itemsOnShelves +
-                ",Dried=" + numDriedItems +
-                ", RawType=" + rawItemToRender.getItem() +
-                ", DriedType=" + (driedItemToRender.isEmpty() ? "None" : driedItemToRender.getItem()));
-
-        if (itemsOnShelves <= 0 || rawItemToRender.isEmpty()) {
-            System.out.println("Render Tick -- CONDITION MET, returning early."); // Add this
-            return;
-        }
-
+        int totalShelves = 6;
+        int currentRawFlowerCount = inputStack.getCount();
+        int currentDriedFlowerCount = outputStack.getCount();
 
         matrices.push();
+        matrices.translate(0.5f, 0.79f, 0.5f);
+        matrices.scale(0.5f, 0.5f, 0.5f);
 
-        // Center point for the stack of items on shelves
-        matrices.translate(0.5f, 0.79f, 0.5f); // Adjust Y for base shelf height
-        matrices.scale(0.5f, 0.5f, 0.5f);       // Scale of items on shelves
-
-        // Loop for up to MAX_SHELVES or the number of items in the current batch
-        for (int i = 0; i < Math.min(itemsOnShelves, DryingTableBlockEntity.MAX_SHELVES); i++) {
+        for (int shelfIndex = 0; shelfIndex < totalShelves; shelfIndex++) {
             matrices.push();
-            // Y offset for each shelf, items stack downwards.
-            // 0.259f is an example, adjust for your item size and desired spacing
-            float yOffset = i * -0.259f;
+            float yOffset = shelfIndex * -0.259f;
             matrices.translate(0.0f, yOffset, 0.0f);
-            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f)); // Lay items flat
+            matrices.multiply(RotationAxis.POSITIVE_X.rotationDegrees(90.0f));
 
-            ItemStack stackToDisplay;
+            ItemStack stackToRenderOnThisShelf = ItemStack.EMPTY;
 
-            if (i < numDriedItems) {
-                // This shelf (index i) should display a dried item
-                if (driedItemToRender.isEmpty()) {
-                    // This case should ideally not happen if logic in BE is correct
-                    // System.err.println("Shelf " + i + ": Dried item type is empty, but numDriedItems (" + numDriedItems + ") indicates it should be dried.");
-                    matrices.pop(); // Pop for this item's matrix
-                    continue;     // Skip rendering this problematic item
+            // Logic to determine what to render:
+            if (shelfIndex < currentDriedFlowerCount) {
+                // This shelf is for a dried flower.
+                // We need to make sure outputStack.getItem() is actually the dried flower item.
+                if (!outputStack.isEmpty() && outputStack.isOf(ModItems.DRIED_MARIJUANA_FLOWER)) { // Explicit check
+                    stackToRenderOnThisShelf = outputStack.copyWithCount(1);
+                } else if (!outputStack.isEmpty()) {
+                    // This case should ideally not happen if logic is correct.
+                    // It means output slot has something, but it's not a dried flower.
+                    // For debugging, maybe render it anyway to see what it is? Or log.
+                    System.out.println("RENDERER WARNING: Shelf " + shelfIndex + " expected dried, but outputStack is: " + outputStack.getItem());
                 }
-                stackToDisplay = driedItemToRender.copyWithCount(1);
-                // System.out.println("Shelf " + i + ": Rendering DRIED " + stackToDisplay.getItem());
-            } else {
-                // This shelf (index i) should display a raw item
-                // rawItemToRender should not be empty if itemsOnShelves > 0
-                stackToDisplay = rawItemToRender.copyWithCount(1);
-                // System.out.println("Shelf " + i + ": Rendering RAW " + stackToDisplay.getItem());
+            } else if (shelfIndex < currentDriedFlowerCount + currentRawFlowerCount) {
+                // This shelf is for a raw flower (after all dried ones are placed)
+                if (!inputStack.isEmpty() && inputStack.isOf(ModItems.MARIJUANA_FLOWER)) { // Explicit check
+                    stackToRenderOnThisShelf = inputStack.copyWithCount(1);
+                } else if (!inputStack.isEmpty()) {
+                    System.out.println("RENDERER WARNING: Shelf " + shelfIndex + " expected raw, but inputStack is: " + inputStack.getItem());
+                }
             }
 
-            if (!stackToDisplay.isEmpty()) {
+            if (!stackToRenderOnThisShelf.isEmpty()) {
                 itemRenderer.renderItem(
-                        stackToDisplay,
-                        ModelTransformationMode.FIXED, // FIXED is often better for items displayed in-world
-                        getLightLevel(entity.getWorld(), entity.getPos().up()), // Light from one block above
+                        stackToRenderOnThisShelf,
+                        ModelTransformationMode.FIXED,
+                        getLightLevel(entity.getWorld(), entity.getPos()),
                         OverlayTexture.DEFAULT_UV,
                         matrices, vertexConsumers,
-                        entity.getWorld(), 0 // Seed
+                        entity.getWorld(), 0
                 );
             }
-            matrices.pop(); // Pop for individual item's transformations
+            matrices.pop();
         }
-        matrices.pop(); // Pop for shelf group's transformations
+        matrices.pop();
     }
 
+    // Calculate the light level for rendering
     private int getLightLevel(World world, BlockPos pos) {
-        if (world == null) return LightmapTextureManager.pack(15, 15); // Full bright if world is somehow null
         int bLight = world.getLightLevel(LightType.BLOCK, pos);
         int sLight = world.getLightLevel(LightType.SKY, pos);
         return LightmapTextureManager.pack(bLight, sLight);

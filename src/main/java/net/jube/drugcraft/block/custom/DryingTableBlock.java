@@ -26,7 +26,6 @@ public class DryingTableBlock extends BlockWithEntity implements BlockEntityProv
     public static final MapCodec<DryingTableBlock> CODEC = DryingTableBlock.createCodec(DryingTableBlock::new);
 
 
-
     public DryingTableBlock(Settings settings) {
         super(settings);
         this.setDefaultState(this.stateManager.getDefaultState().with(DRYING, false));
@@ -50,7 +49,7 @@ public class DryingTableBlock extends BlockWithEntity implements BlockEntityProv
 
     @Override
     protected void onStateReplaced(BlockState state, World world, BlockPos pos, BlockState newState, boolean moved) {
-        if(state.getBlock() != newState.getBlock()) {
+        if (state.getBlock() != newState.getBlock()) {
             BlockEntity blockEntity = world.getBlockEntity(pos);
             if (blockEntity instanceof DryingTableBlockEntity) {
                 ItemScatterer.spawn(world, pos, ((DryingTableBlockEntity) blockEntity));
@@ -94,11 +93,12 @@ public class DryingTableBlock extends BlockWithEntity implements BlockEntityProv
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(World world, BlockState state, BlockEntityType<T> type) {
-        if(world.isClient()) {
+        if (world.isClient()) { // Only server-side ticker
             return null;
         }
-
+        System.out.println("DRYING TABLE: getTicker CALLED ON SERVER for type: " + type + " our type: " + ModBlockEntities.DRYING_TABLE_BE); // DEBUG
         return validateTicker(type, ModBlockEntities.DRYING_TABLE_BE,
                 (world1, pos, state1, blockEntity) -> blockEntity.tick(world1, pos, state1));
     }
 }
+
