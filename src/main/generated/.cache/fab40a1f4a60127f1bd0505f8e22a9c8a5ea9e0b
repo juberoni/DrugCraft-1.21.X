@@ -1,6 +1,15 @@
-// 1.21	2025-05-06T23:02:38.1646371	DrugCraft/Block Loot Tables
+// 1.21	2025-05-12T03:15:28.2644325	DrugCraft/Block Loot Tables
 166e3e54ac7c73c9c306801631aa43e9b5c7f337 data\drugcraft\loot_table\blocks\block_of_dried_marijuana.json
 d5fa58278dc8798fdef9f29448a44ce9a0a0f50d data\drugcraft\loot_table\blocks\marijuana_plant.json
-4552c8485edcad758fa6416a6b4476694c5ace4e data\drugcraft\loot_table\blocks\table.json
+bc0247bfa6a86db0a2d0a84596c0ac28625dc75d data\drugcraft\loot_table\blocks\cherry_drying_table.json
+01febedc208727f6da40f66db36370b4986c032f data\drugcraft\loot_table\blocks\birch_drying_table.json
+b599ffdaa7339756138166b9fa5e595f4a12255b data\drugcraft\loot_table\blocks\acacia_drying_table.json
+4aebc9f19ed00f516cded63c5676616e4f8f1c78 data\drugcraft\loot_table\blocks\oak_drying_table.json
+a85ddb679d5600fd5464c6677a10a67cc2983526 data\drugcraft\loot_table\blocks\mangrove_drying_table.json
+0383a03c7d6e7749b8695f353f3be476042dbad5 data\drugcraft\loot_table\blocks\bamboo_drying_table.json
 8f5a8ae611b981e1e2dc9de17a0cf6abd77178a4 data\drugcraft\loot_table\blocks\drying_table.json
+afd7e90c4d5d519ddfd529d7590668338d389cec data\drugcraft\loot_table\blocks\dark_oak_drying_table.json
+d9fe7a7e452195464b0657c450e9a405b65237ed data\drugcraft\loot_table\blocks\jungle_drying_table.json
+4552c8485edcad758fa6416a6b4476694c5ace4e data\drugcraft\loot_table\blocks\table.json
+76a5386c23348f2001967178d32c9ebc8a181bee data\drugcraft\loot_table\blocks\spruce_drying_table.json
 b3140401f09788bd1f8a1cf6911bae76a8ab171e data\drugcraft\loot_table\blocks\block_of_marijuana.json

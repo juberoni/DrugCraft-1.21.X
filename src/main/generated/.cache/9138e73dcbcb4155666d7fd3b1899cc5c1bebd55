@@ -1,9 +1,11 @@
-// 1.21	2025-05-06T23:02:38.1646371	DrugCraft/Recipes
+// 1.21	2025-05-12T03:15:28.2654951	DrugCraft/Recipes
 3957e7daefcb90a733a2a20613d0638dc785ef14 data\drugcraft\advancement\recipes\building_blocks\dried_marijuana_flower.json
 80372cb536cfc51b850c6d94adfc2808e8024318 data\drugcraft\advancement\recipes\building_blocks\marijuana_flower.json
 2bb22ef691a3390a2ef0b802fb66aeda9bce1c63 data\drugcraft\advancement\recipes\misc\paper.json
+e5a20fc8293214f366f0cd6ee031975e78f04621 data\drugcraft\recipe\drying_fan.json
 1b526f88d28959f4c314793fdd60b66f2f18e3e5 data\drugcraft\recipe\block_of_dried_marijuana.json
 568850eabc403fcc3828c41098cd57da0adcd1bb data\drugcraft\recipe\drying_table.json
+1a8f452a8d4c57bff8123852d2623fb83a385c13 data\drugcraft\advancement\recipes\misc\drying_fan.json
 63aa77d8d0a0f5139eff88fb04db0c954c861299 data\drugcraft\recipe\block_of_marijuana.json
 3e0f8d7204a32a39138ccb117b32bafc44c6adfc data\drugcraft\advancement\recipes\building_blocks\table.json
 e8cb9052f71d0c554ea99ebe688b764a04925c4a data\drugcraft\advancement\recipes\building_blocks\drying_table.json

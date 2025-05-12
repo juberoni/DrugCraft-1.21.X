@@ -21,6 +21,16 @@ public class ModItemGroups {
                         entries.add(ModBlocks.BLOCK_OF_DRIED_MARIJUANA);
                         entries.add(ModBlocks.TABLE);
                         entries.add(ModBlocks.DRYING_TABLE);
+                        entries.add(ModBlocks.ACACIA_DRYING_TABLE);
+                        entries.add(ModBlocks.BAMBOO_DRYING_TABLE);
+                        entries.add(ModBlocks.BIRCH_DRYING_TABLE);
+                        entries.add(ModBlocks.CHERRY_DRYING_TABLE);
+                        entries.add(ModBlocks.DARK_OAK_DRYING_TABLE);
+                        entries.add(ModBlocks.JUNGLE_DRYING_TABLE);
+                        entries.add(ModBlocks.MANGROVE_DRYING_TABLE);
+                        entries.add(ModBlocks.OAK_DRYING_TABLE);
+                        entries.add(ModBlocks.SPRUCE_DRYING_TABLE);
+
 
 
                         entries.add(ModItems.MARIJUANA_LEAF);
@@ -28,6 +38,7 @@ public class ModItemGroups {
                         entries.add(ModItems.DRIED_MARIJUANA_FLOWER);
                         entries.add(ModItems.MARIJUANA_SEEDS);
                         entries.add(ModItems.DRYING_FAN);
+
 
 
 

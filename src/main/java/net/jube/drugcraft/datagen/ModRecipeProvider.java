@@ -55,5 +55,16 @@ public class ModRecipeProvider extends FabricRecipeProvider {
                 .criterion("has_ingot", conditionsFromItem(Items.IRON_INGOT))
                 .criterion("has_bars", conditionsFromItem(Items.IRON_BARS))
                 .offerTo(exporter);
+
+        ShapedRecipeJsonBuilder.create(RecipeCategory.MISC, ModItems.DRYING_FAN,1)
+                .pattern(" N ")
+                .pattern("NIN")
+                .pattern(" N ")
+                .input('I', Items.IRON_INGOT)
+                .input('N', Items.IRON_NUGGET)
+                .criterion("has_ingot", conditionsFromItem(Items.IRON_INGOT))
+                .criterion("has_nugget", conditionsFromItem(Items.IRON_NUGGET))
+                .offerTo(exporter);
     }
+
 }

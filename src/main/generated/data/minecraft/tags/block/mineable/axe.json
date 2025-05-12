@@ -1,5 +1,14 @@
 {
   "values": [
-    "drugcraft:table"
+    "drugcraft:table",
+    "drugcraft:acacia_drying_table",
+    "drugcraft:bamboo_drying_table",
+    "drugcraft:birch_drying_table",
+    "drugcraft:cherry_drying_table",
+    "drugcraft:dark_oak_drying_table",
+    "drugcraft:jungle_drying_table",
+    "drugcraft:mangrove_drying_table",
+    "drugcraft:oak_drying_table",
+    "drugcraft:spruce_drying_table"
   ]
 }

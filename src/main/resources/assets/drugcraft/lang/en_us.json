@@ -13,6 +13,17 @@
 
   "block.drugcraft.table": "Oak Table",
   "block.drugcraft.drying_table": "Drying Table",
+  "block.drugcraft.acacia_drying_table": "Acacia Drying Table",
+  "block.drugcraft.bamboo_drying_table": "Bamboo Drying Table",
+  "block.drugcraft.birch_drying_table": "Birch Drying Table",
+  "block.drugcraft.cherry_drying_table": "Cherry Drying Table",
+  "block.drugcraft.dark_oak_drying_table": "Dark Oak Drying Table",
+  "block.drugcraft.jungle_drying_table": "Jungle Drying Table",
+  "block.drugcraft.mangrove_drying_table": "Mangrove Drying Table",
+  "block.drugcraft.oak_drying_table": "Oak Drying Table",
+  "block.drugcraft.spruce_drying_table": "Spruce Drying Table",
+
+
 
   "itemgroup.drugcraft.drugcraft_items": "DrugCraft"
 }

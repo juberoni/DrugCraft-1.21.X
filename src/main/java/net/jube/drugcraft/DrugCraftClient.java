@@ -7,11 +7,13 @@ import net.jube.drugcraft.block.ModBlocks;
 import net.jube.drugcraft.block.entity.ModBlockEntities;
 import net.jube.drugcraft.block.entity.renderer.DryingTableBlockEntityRenderer;
 import net.jube.drugcraft.block.entity.renderer.TableBlockEntityRenderer;
+import net.jube.drugcraft.block.entity.renderer.WoodDryingTableBlockEntityRenderer;
 import net.jube.drugcraft.particle.MarijuanaPlantParticle;
 import net.jube.drugcraft.particle.ModParticles;
 import net.jube.drugcraft.screen.ModScreenHandlers;
 import net.jube.drugcraft.screen.custom.DryingTableScreen;
 import net.jube.drugcraft.screen.custom.TableScreen;
+import net.jube.drugcraft.screen.custom.WoodDryingTableScreen;
 import net.minecraft.client.gui.screen.ingame.HandledScreens;
 import net.minecraft.client.render.RenderLayer;
 import net.minecraft.client.render.block.entity.BlockEntityRendererFactories;
@@ -29,9 +31,11 @@ public class DrugCraftClient implements ClientModInitializer {
         BlockEntityRendererFactories.register(ModBlockEntities.TABLE_BE, TableBlockEntityRenderer::new);
         HandledScreens.register(ModScreenHandlers.TABLE_SCREEN_HANDLER, TableScreen::new);
 
-
         BlockEntityRendererFactories.register(ModBlockEntities.DRYING_TABLE_BE, DryingTableBlockEntityRenderer::new);
         HandledScreens.register(ModScreenHandlers.DRYING_TABLE_SCREEN_HANDLER, DryingTableScreen::new);
+
+        BlockEntityRendererFactories.register(ModBlockEntities.WOOD_DRYING_TABLE_BE, WoodDryingTableBlockEntityRenderer::new);
+        HandledScreens.register(ModScreenHandlers.WOOD_DRYING_TABLE_SCREEN_HANDLER, WoodDryingTableScreen::new);
 
     }
 }
